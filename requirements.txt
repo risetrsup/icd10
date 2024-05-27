@@ -1,4 +1,6 @@
+streamlit
 torch
-pickle
 transformers
-re
+pandas
+scikit-learn
+
