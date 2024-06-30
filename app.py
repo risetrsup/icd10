@@ -11,8 +11,20 @@
 
 # In[17]:
 
-
+import streamlit as st
+import torch
+import torch.nn as nn
+from transformers import BertTokenizer, BertModel
 import re
+import pickle 
+import os
+
+
+def download_model():
+    url = 'https://drive.google.com/uc?id=1-4f9SfmaTLFKPliRnf95HKG2apJI6NWe'
+    output = 'bert_bigru_model.pth'
+    if not os.path.exists(output):
+         gdown.download(url, output, quiet=False) 
 
 #Roman Number IV A into IVA
 
@@ -79,11 +91,7 @@ def normalize_text(text):
 
 # In[18]:
 
-
-import streamlit as st
-import torch
-import torch.nn as nn
-from transformers import BertTokenizer, BertModel
+download_model()
 
 # Define the model class (ensure it matches your training code)
 class StackedGRUModel(nn.Module):
@@ -121,9 +129,9 @@ class StackedGRUModel(nn.Module):
 @st.cache_resource
 def load_model():
     bert_model_name = 'bert-base-uncased'
-    hidden_dim = 256
+    hidden_dim = 128
     n_layers = 2
-    num_classes = 10
+    num_classes = 11
     dropout = 0.2
     bidirectional = True
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -138,7 +146,7 @@ def load_model():
 
 
 # Function to load the saved LabelEncoder
-import pickle
+
 
 def load_label_encoder():
     
@@ -167,8 +175,8 @@ if 'model' not in st.session_state:
 
 text_input = st.text_area("Diagnosa primer", "Contoh text .")
 
-st.write("Kode ICD 10: [A16.2, D38.1, I25.1, K30, Z03.1, K01.1]")
-st.write(" NN = [J47,S06.0, U07.1, C34.9]")
+st.write("Kode ICD 10 yang dikenali: [C34.9,A16.2,J16.8,K01.1,I25.1,J47,J18.9]")
+
 
 if st.button("Classify"):
     if text_input:
