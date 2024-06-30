@@ -21,7 +21,6 @@ import os
 
 
 def download_model():
-#https://drive.google.com/file/d/1lyYPkPKCt_9kjOfOZHrM1IA3D9Q7mG7P/view?usp=sharing	
     url = 'https://drive.google.com/uc?id=1lyYPkPKCt_9kjOfOZHrM1IA3D9Q7mG7P'
     output = 'bert_bigru_model.pth'
     if not os.path.exists(output):
